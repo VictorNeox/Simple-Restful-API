@@ -20,16 +20,13 @@ app.get('/api/courses', (req, res) => {
 
 app.get('/api/courses/:id', (req, res) => {
     const course = courses.find(course => course.id === parseInt(req.params.id));
-    if(!course) res.status(404).send(`Course with ID ${req.params.id} was not found`);
+    if(!course) return res.status(404).send(`Course with ID ${req.params.id} was not found`);
     res.send(course);
 });
 
 app.post('/api/courses', (req, res) => {
     const { error } = validateCourse(req.body); // result.error
-    if(error) {
-        res.status(400).send(error.details[0].message);
-        return; 
-    }
+    if(error) return res.status(400).send(error.details[0].message);
 
     const course = {
         id: courses.length + 1,
@@ -42,13 +39,10 @@ app.post('/api/courses', (req, res) => {
 
 app.put('/api/courses/:id', (req, res) => {
     const course = courses.find(course => course.id === parseInt(req.params.id));
-    if(!course) res.status(404).send(`Course with ID ${req.params.id} was not found`);
+    if(!course) return res.status(404).send(`Course with ID ${req.params.id} was not found`);
 
     const { error } = validateCourse(req.body); // result.error
-    if(error) {
-        res.status(400).send(error.details[0].message);
-        return; 
-    }
+    if(error) return res.status(400).send(error.details[0].message);
 
     course.name = req.body.name;
     res.send(course);
@@ -56,7 +50,7 @@ app.put('/api/courses/:id', (req, res) => {
 
 app.delete('/api/courses/:id', (req, res) => {
     const course = courses.find(course => course.id === parseInt(req.params.id));
-    if(!course) res.status(404).send(`Course with ID ${req.params.id} was not found`);
+    if(!course) return res.status(404).send(`Course with ID ${req.params.id} was not found`);
 
     const index = courses.indexOf(course);
     courses.splice(index, 1);
