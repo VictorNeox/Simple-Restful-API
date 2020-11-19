@@ -1,3 +1,5 @@
+const debug = require('debug')('app:startup');
+
 const config = require('config');
 const morgan = require('morgan');
 const helmet = require('helmet');
@@ -8,8 +10,9 @@ const app = express();
 
 if(app.get('env') === 'development') {
     app.use(morgan('tiny'));
-    console.log('Morgan enabled');
+    debug('Morgan enabled'); // console.log();
 }
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
