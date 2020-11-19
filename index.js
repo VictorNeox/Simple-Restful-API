@@ -8,6 +8,9 @@ const logger = require('./logger');
 const express = require('express');
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', './views'); // Default
+
 if(app.get('env') === 'development') {
     app.use(morgan('tiny'));
     debug('Morgan enabled'); // console.log();
@@ -35,7 +38,7 @@ const courses = [
 ];
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.render('index', { title: 'My Express App', message: 'Hello' });
 });
 
 app.get('/api/courses', (req, res) => {
